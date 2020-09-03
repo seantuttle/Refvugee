@@ -1,0 +1,21 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}
+    Refvugee Mailing List
+{% endblock %}
+
+{% block content %}
+    <div class="content-section">
+        <form action="{% url 'mailing-list-unsubscribe-done' %}" method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Mailing List</legend>
+                <h4>Are you sure you want to unsubscribe from our mailing list?</h4>
+            </fieldset>
+            <div class="form-group">
+                <button type="submit" class="btn btn-outline-danger">Yes, unsubscribe me</button>
+                <a  class="btn btn-outline-secondary" href="{% url 'mailing-list-detail' %}">Cancel</a>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

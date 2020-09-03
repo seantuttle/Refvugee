@@ -1,0 +1,128 @@
+{% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    Refvugee Vignette
+{% endblock %}
+
+{% block content %}
+    <article class="media content-section article-section">
+        <img src="{{ post.author.profile.image.url }}" alt="" class="rounded-circle article-img">
+        <div class="media-body">
+            <div class="article-metadata">
+                <a class="author-link mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
+                <small class="text-muted">{{ post.date_posted|date:"F j, Y" }}</small>
+                {% if user.is_staff %}
+                    <div>
+                        <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' post.id %}">Update</a>
+                        <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' post.id %}">Delete</a>
+                    </div>
+                {% endif %}
+            </div>
+            <h2 class="article-title">{{ post.title }}</h2>
+            <p class="article-content">{{ post.content }}</p>
+        </div>
+    </article>
+    <div class="comment-section-header">
+        <h2 class="d-inline">Comment Section ({{ num_comments }})</h2>
+    </div>
+    {% if not update %}
+        <div id="comment-form" class="content-section">
+            <form method="POST">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Make a Comment</legend>
+                    {{ form|crispy }}
+                </fieldset>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-outline-info gold-btn mr-1">Post</button>  
+                    <a class="btn btn-outline-secondary" href="{% url 'post-detail' post.id %}">Cancel</a>
+                </div>
+            </form>
+        </div>
+    {% endif %}
+    {% if comments %}
+        {% for comment in comments %}
+            {% if update and comment.comment.id == view.kwargs.id %}
+                <div id="comment-form" class="content-section">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <fieldset class="form-group">
+                            <legend class="border-bottom mb-4">Update This Comment</legend>
+                            {{ form|crispy }}
+                        </fieldset>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-outline-info gold-btn mr-1">Post</button>  
+                            <a class="btn btn-outline-secondary" href="{% url 'post-detail' post.id %}">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            {% else %}
+                <article class="media content-section comment-section">
+                    <img src="{{ comment.author.profile.image.url }}" alt="FAIL" class="rounded-circle article-img">
+                    <div class="media-body">
+                        <div class="article-metadata">
+                            <p class="d-inline mr-2">{{ comment.author }}</p>
+                            <small class="text-muted">{{ comment.comment.date_posted|date:"F j, Y" }}</small>
+                            <br>
+                            {% if comment.author == user or user.is_staff %}
+                                <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'comment-update' pk=comment.comment.post_id id=comment.comment.id %}#comment-form">Update</a>
+                                {% if user.is_staff %}
+                                    <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'comment-delete' pk=comment.comment.post_id id=comment.comment.id %}">Delete</a>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                        <h5>{{ comment.comment.title }}</h5>
+                        <p class="article-content">{{ comment.comment.content }}</p>
+                        <div class="border-top pt-3">
+                            {% if user.is_authenticated %}
+                                <a class="btn btn-outline-info btn-sm gold-btn mr-1" href="#">Reply</a>
+                                {% if comment.author != user %}
+                                    <a class="btn btn-outline-danger btn-sm" href="{% url 'comment-report' pk=comment.comment.post_id id=comment.comment.id %}">Report</a>
+                                {% endif %}
+                            {% else %}
+                                <div class="mb-1">
+                                    <small class="text-muted">
+                                        You must <b><a class="gold-link" href="{% url 'login' %}">sign in</a></b> to reply to comments.
+                                    </small>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </article>
+            {% endif %}
+                {% for reply in comment.replies %}
+                <article class="media content-section comment-section reply-section">
+                    <img src="{{ reply.author.profile.image.url }}" alt="No Picture" class="rounded-circle article-img">
+                    <div class="media-body">
+                        <div class="article-metadata">
+                            <p class="d-inline mr-2">{{ reply.author }}</p>
+                            <small class="text-muted">{{ reply.date_posted|date:"F j, Y" }}</small>
+                            <br>
+                            <small class="d-inline">Replying to "{{ reply.parent_comment.title }}" by {{ reply.parent_comment.author }}</small>
+                            <br>
+                            {% if reply.author == user or user.is_staff %}
+                                <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'reply-update' pk=view.kwargs.pk id=reply.parent_comment.id key=reply.id %}#reply-form">Update</a>
+                                {% if user.is_staff %}
+                                    <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'reply-delete' pk=view.kwargs.pk id=reply.parent_comment.id key=reply.id %}">Delete</a>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                        <h5>{{ reply.title }}</h5>
+                        <p class="article-content">{{ reply.content }}</p>
+                        <div class="border-top pt-3">
+                            {% if user.is_authenticated and reply.author != user %}
+                                <a class="btn btn-outline-danger btn-sm" href="{% url 'reply-report' pk=view.kwargs.pk id=reply.parent_comment.id key=reply.id %}">Report</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </article>
+            {% endfor %}
+        {% endfor %}
+    {% else %}
+        <div class="content-section comment-section">
+            <h4 class="text-center">There are currently no comments on this post.</h4>
+        </div>
+    {% endif %}
+{% endblock %}
+

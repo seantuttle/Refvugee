@@ -1,0 +1,32 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}
+    Refvugee Mailing List
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="content-section">
+            {% if user.profile.notify %}
+                <h3>You are currently subscribed to our mailing list.</h3>
+            {% else %}
+                <h3>You are currently not subscribed to our mailing list.</h3>
+            {% endif %}
+            <hr>
+            <p>
+                A paragraph explaining what the mailing list is
+                <br>
+                Maybe some text specific to them being on/ not on the list already.
+            </p>
+            {% if not user.profile.notify %}
+                <a class="btn btn-outline-info gold-btn" href="{% url 'mailing-list-subscribe' %}">
+                    Subscribe To Our Mailing List
+                </a>
+            {% else %}
+                <a class="btn btn-outline-danger" href="{% url 'mailing-list-unsubscribe' %}">
+                    Unsubscribe From Our Mailing List
+                </a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

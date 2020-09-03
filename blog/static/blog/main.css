@@ -1,0 +1,292 @@
+/* Commodore Gold Hex: #AD7B00, rgb(173, 123, 0) */
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  background: #fafafa;
+  color: #333333;
+  height: 100%;
+}
+
+*:focus {
+  outline-color: rgb(173, 123, 0);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #444444;
+}
+
+main {
+  position: relative;
+  top: 5rem;
+  min-height: calc(100% - 5rem);
+}
+
+.main-container {
+  padding-bottom: 150px;
+}
+
+footer {
+  background-color: black;
+  position: relative;
+  height: 150px;
+  clear: both;
+}
+
+.footer-link-group {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media only screen and (min-width: 768px) {
+  .main-container {
+    padding-bottom: 100px;
+  }
+
+  footer {
+    background-color: black;
+    position: relative;
+    height: 100px;
+    clear: both;
+  }
+
+  .footer-link-group {
+    padding-top: 20px;
+    padding-bottom: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.gold-icon {
+  color: rgb(173, 123, 0);
+}
+
+.footer-icon {
+  font-size: 10px;
+}
+
+.footer-link {
+  color: white;
+}
+
+.footer-link:hover {
+  color: rgb(173, 123, 0);
+  text-decoration: none;
+}
+
+.footer-copyright-container {
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+ul {
+  margin: 0;
+}
+
+.bg-black {
+  background-color: black;
+}
+
+.site-header .navbar-nav .nav-link, .username-ident, .username-ident a {
+  color: white;
+}
+
+.site-header .navbar-nav .nav-link:hover, .username-ident a:hover {
+  color: rgb(173, 123, 0);
+  text-decoration: none;
+}
+
+.site-header .navbar-nav .nav-link.active {
+  font-weight: 500;
+}
+
+#admin-link {
+  background-color: rgb(173, 123, 0);
+  border-radius: 5px;
+}
+
+#admin-link:hover {
+  color: black;
+}
+
+.username-ident-img {
+  height: 30px;
+  width: 30px;
+  margin-left: 6px;
+}
+
+.search-container {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.search-comp {
+  height: 5vh;
+  border: 2px solid rgb(173, 123, 0);
+  border-radius: 3px;
+  background-color: #f9f9f9;
+}
+
+.search-box {
+  float: left;
+  border-right-width: 0.5px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  padding: 5px;
+}
+
+.search-btn {
+  float: left;
+  width: 5vh;
+  border-left-width: 0.5px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content-section {
+  background: white;
+  padding: 10px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  margin-bottom: 20px;
+}
+
+.article-section {
+  border: 1px solid rgb(173, 123, 0);
+}
+
+.article-title {
+  color: #444444;
+}
+
+a.article-title:hover {
+  color: rgb(173, 123, 0);
+  text-decoration: none;
+}
+
+.article-content {
+  white-space: pre-line;
+}
+
+.article-img {
+  height: 65px;
+  width: 65px;
+  margin-right: 16px;
+}
+
+.article-metadata {
+  padding-bottom: 1px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid #e3e3e3
+}
+
+.article-metadata .author-link {
+  color: rgb(173, 123, 0);
+  text-decoration: none;
+}
+
+.article-metadata .author-link:hover {
+  color: #333;
+}
+
+.article-svg {
+  width: 25px;
+  height: 25px;
+  vertical-align: middle;
+}
+
+.account-img {
+  height: 125px;
+  width: 125px;
+  margin-right: 20px;
+  margin-bottom: 16px;
+}
+
+.account-heading {
+  font-size: 2.5rem;
+}
+
+.sidebar {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 5rem;
+}
+
+.sidebar-link {
+  color: #333333;
+}
+
+.sidebar-link:hover {
+  color: rgb(173, 123, 0);
+  text-decoration: none;
+}
+
+.comment-section-header {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.comment-btn-words {
+  display: none;
+}
+
+.comment-btn-icon {
+  display: inline;
+}
+
+@media only screen and (min-width: 768px) {
+  .comment-btn-words {
+    display: inline;
+  }
+
+  .comment-btn-icon {
+    display: none;
+  }
+}
+
+.reply-section {
+  margin-left: 2rem;
+  border-color: #bbbbbb;
+}
+
+.gold-btn {
+  color: rgb(173, 123, 0);
+  border-color: rgb(173, 123, 0);
+}
+
+.gold-btn:hover {
+  background-color: rgb(173, 123, 0);
+  border-color: rgb(173, 123, 0);
+  color: white;
+}
+
+.gold-link {
+  color: rgb(173, 123, 0);
+}
+
+.gold-link:hover {
+  color: #333333;
+  text-decoration: none;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

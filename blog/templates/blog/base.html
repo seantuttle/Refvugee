@@ -1,0 +1,144 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="A collection of blog-style posts and vignettes detailing the lives and stories of refugess in the greater Nashville area">
+    <meta name="author" content="Sean Tuttle">
+    <meta name="keywords" content="refvugee, refugee, refugees, vanderbilt, university, nice, mayfield, nashville">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'blog/main.css' %}">
+
+    <title>{% block title %}{% endblock %}</title>
+  </head>
+  <body>
+    <header class="site-header">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-black fixed-top">
+          <div class="container">
+            <a id="brand" class="navbar-brand mr-5" href="{% url 'blog-home' %}">Refvugee</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarToggle">
+              <form action="{% url 'search-posts' %}" method="POST">
+                {% csrf_token %}
+                <div class="search-container">
+                  <input class="search-comp search-box" type="search" name="query" placeholder='Search'>
+                  <button type="submit" class="btn search-comp search-btn">
+                    <span class="fa fa-search"></span>
+                  </button>
+                </div>
+              </form>
+              <div class="navbar-nav ml-auto">
+                <a class="nav-item nav-link" href="{% url 'blog-home' %}">Home</a>
+                <a class="nav-item nav-link" href="{% url 'blog-about' %}">About</a>
+                {% if user.is_authenticated %}
+                  <a class="nav-item nav-link" href="{% url 'blog-contact' %}">Contact</a>
+                {% endif %}
+              </div>
+              <!-- Navbar Right Side -->
+              <div class="navbar-nav mr-4">
+                {% if user.is_authenticated %}
+                  {% if user.is_staff %}
+                    <a class="nav-item nav-link" href="{% url 'post-create' %}">Create Post</a>
+                  {% else %}
+                    <a class="nav-item nav-link" href="{% url 'mailing-list-detail' %}">Mailing List</a>
+                  {% endif %}
+                  <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
+                  <a class="nav-item nav-link" href="{% url 'logout' %}">Sign Out</a>
+                  {% if user.is_staff %}
+                    <a id="admin-link" class="nav-item nav-link" href="/admin/">Admin</a>
+                  {% endif %}
+                {% else %}
+                  <a class="nav-item nav-link" href="{% url 'login' %}">Sign In</a>
+                  <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+                {% endif %}
+              </div>
+              {% if user.is_authenticated %}
+                <div class="navbar-nav username-ident">
+                  Signed In As:<a class="ml-2" href="{% url 'profile' %}">{{ user.username }}</a>
+                </div>
+                <div class="navbar-nav">
+                  <a href="{% url 'profile' %}">
+                    <img class="rounded-circle username-ident-img" src="{{ user.profile.image.url }}">
+                  </a>
+                </div>
+              {% else %}
+                <div class="navbar-nav username-ident">
+                  <a href="{% url 'login' %}">Not Signed In</a>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </nav>
+      </header>
+      <main role="main" class="container">
+        <div class="main-container">
+        <div class="row">
+          <div class="col-md-8">
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
+            {% block content %}{% endblock %}
+            {% block pagination %}{% endblock %}
+          </div>
+          <div class="col-md-4">
+            <div class="content-section sidebar">
+              <h3>Informational Links</h3>
+              <p class='text-muted'>Make sure to keep up to date!
+                <ul class="list-group">
+                  <li class="list-group-item list-group-item-light">
+                    <a class="sidebar-link" href="{% url 'blog-announcements' %}">Announcements</a>
+                  </li>
+                  <li class="list-group-item list-group-item-light">
+                    <a class="sidebar-link" href="{% url 'blog-calendar' %}">Calendar</a>
+                  </li>
+                  <li class="list-group-item list-group-item-light">
+                    <a class="sidebar-link" href="{% url 'blog-upcoming-events' %}">Upcoming Events</a>
+                  </li>
+                </ul>
+              </p>
+            </div>
+          </div>
+        </div>
+        </div>
+      </main>
+      <footer>
+        <div class="container">
+          <div class="row footer-link-group">
+            <a class="footer-link mr-2" href="{% url 'blog-home' %}">Home</a>
+            <span class="fa fa-star-o gold-icon footer-icon"></span>
+            <a class="footer-link mr-2 ml-2" href="{% url 'blog-about' %}">About</a>
+            <span class="fa fa-star-o gold-icon footer-icon"></span>
+            <a class="footer-link mr-2 ml-2" href="{% url 'blog-contact' %}">Contact</a>
+            <span class="fa fa-star-o gold-icon footer-icon"></span>
+            <a class="footer-link mr-2 ml-2" href="https://www.empowernashville.org/" target="_blank">NICE</a>
+            <span class="fa fa-star-o gold-icon footer-icon"></span>
+            <a class="footer-link mr-2 ml-2" href="https://www.vanderbilt.edu/" target="_blank">Vanderbilt</a>
+            {% if user.is_authenticated and not user.is_staff %}
+              <span class="fa fa-star-o gold-icon footer-icon"></span>
+              <a class="footer-link ml-2" href="{% url 'mailing-list-detail' %}">Mailing List</a>
+            {% endif %}
+          </div>
+          <div class="row footer-copyright-container">
+            <small class="text-center">
+              REFVUGEE PROJECT<span class="fa fa-star-o gold-icon footer-icon mr-2 ml-2"></span>REFVUGEE PROJECT
+            </small>
+          </div>
+        </div>
+      </footer>
+
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>

@@ -1,0 +1,9 @@
+{% extends 'blog/base_with_entries.html' %}
+
+{% block title %}
+    Refvugee
+{% endblock %}
+
+{% block post_title %}
+  <a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a>
+{% endblock %}
